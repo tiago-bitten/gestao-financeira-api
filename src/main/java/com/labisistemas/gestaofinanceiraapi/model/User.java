@@ -28,6 +28,9 @@ public class User extends EntityId {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Wallet> wallets;
 
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<UserHistory> userHistories;
+
     public User(String name, String email, String password) {
         this.name = name;
         this.email = email;

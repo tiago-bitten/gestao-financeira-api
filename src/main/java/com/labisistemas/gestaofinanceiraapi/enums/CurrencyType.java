@@ -1,6 +1,6 @@
 package com.labisistemas.gestaofinanceiraapi.enums;
 
-public enum Currency {
+public enum CurrencyType {
 
     USD,
     BRL,
