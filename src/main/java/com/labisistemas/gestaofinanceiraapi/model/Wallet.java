@@ -1,16 +1,14 @@
 package com.labisistemas.gestaofinanceiraapi.model;
 
 import com.labisistemas.gestaofinanceiraapi.enums.Currency;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -34,6 +32,10 @@ public class Wallet extends EntityId {
 
     @Column(name = "created_at", nullable = false)
     private Instant createdAt;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     public Wallet(String name, String description, Double balance, Currency currency) {
         this.name = name;
