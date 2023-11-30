@@ -8,6 +8,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.time.Instant;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -26,6 +27,7 @@ public class Wallet extends EntityId {
     @Column(name = "balance", nullable = false)
     private Double balance;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "currency", nullable = false)
     private CurrencyType currency;
 
@@ -35,6 +37,9 @@ public class Wallet extends EntityId {
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    @OneToMany(mappedBy = "wallet", fetch = FetchType.LAZY)
+    private List<WalletHistory> walletHistories;
 
     public Wallet(String name, String description, Double balance, CurrencyType currency) {
         this.name = name;

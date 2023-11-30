@@ -17,13 +17,13 @@ import java.time.Instant;
 @Table(name = "UserHistories")
 public class UserHistory extends EntityId {
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "email")
+    @Column(name = "email", nullable = false)
     private String email;
 
-    @Column(name = "password")
+    @Column(name = "password", nullable = false)
     private String password;
 
     @Enumerated(EnumType.STRING)
@@ -37,4 +37,12 @@ public class UserHistory extends EntityId {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+
+    public UserHistory(String name, String email, String password, ChangeType changeType) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.changeType = changeType;
+        this.changedAt = Instant.now();
+    }
 }
