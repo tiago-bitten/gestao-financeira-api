@@ -1,5 +1,6 @@
 package com.labisistemas.gestaofinanceiraapi.model;
 
+import com.labisistemas.gestaofinanceiraapi.enums.CurrencyType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,7 +28,7 @@ public class WalletHistory extends EntityId {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "currency", nullable = false)
-    private String currency;
+    private CurrencyType currency;
 
     @Column(name = "change_type", nullable = false)
     private Instant changeType;
@@ -39,7 +40,7 @@ public class WalletHistory extends EntityId {
     @JoinColumn(name = "wallet_id", nullable = false)
     private Wallet wallet;
 
-    public WalletHistory(String name, String description, Double balance, String currency, Instant changeType) {
+    public WalletHistory(String name, String description, Double balance, CurrencyType currency, Instant changeType) {
         this.name = name;
         this.description = description;
         this.balance = balance;
@@ -48,7 +49,7 @@ public class WalletHistory extends EntityId {
         this.changedAt = Instant.now();
     }
 
-    public WalletHistory(String name, Double balance, String currency, Instant changeType) {
+    public WalletHistory(String name, Double balance, CurrencyType currency, Instant changeType) {
         this.name = name;
         this.balance = balance;
         this.currency = currency;
