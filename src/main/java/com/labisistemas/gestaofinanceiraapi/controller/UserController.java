@@ -2,6 +2,7 @@ package com.labisistemas.gestaofinanceiraapi.controller;
 
 import com.labisistemas.gestaofinanceiraapi.dto.CreateUserDto;
 import com.labisistemas.gestaofinanceiraapi.dto.ReadUserDto;
+import com.labisistemas.gestaofinanceiraapi.dto.UpdateUserDto;
 import com.labisistemas.gestaofinanceiraapi.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ public class UserController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<ReadUserDto> update(@RequestBody @Valid CreateUserDto dto, @PathVariable Long id) {
+    public ResponseEntity<ReadUserDto> update(@RequestBody @Valid UpdateUserDto dto, @PathVariable Long id) {
         ReadUserDto user = userService.update(dto, id);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
