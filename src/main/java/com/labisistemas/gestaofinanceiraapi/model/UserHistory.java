@@ -38,11 +38,12 @@ public class UserHistory extends EntityId {
     private User user;
 
 
-    public UserHistory(String name, String email, String password, ChangeType changeType) {
+    public UserHistory(String name, String email, String password, ChangeType changeType, User user) {
         this.name = name;
         this.email = email;
         this.password = password;
         this.changeType = changeType;
+        this.user = user;
         this.changedAt = Instant.now();
     }
 }
