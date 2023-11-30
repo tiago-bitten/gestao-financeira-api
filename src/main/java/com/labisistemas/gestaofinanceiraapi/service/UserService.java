@@ -9,6 +9,8 @@ import jakarta.validation.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import static com.labisistemas.gestaofinanceiraapi.enums.ChangeType.*;
+
 @Service
 public class UserService {
 
@@ -27,7 +29,7 @@ public class UserService {
         User user = new User(dto.name(), dto.email(), dto.password());
 
         userRepository.save(user);
-        userHistoryService.insert(user);
+        userHistoryService.log(user, INSERT);
 
         return new ReadUserDto(user.getId(), user.getName(), user.getEmail());
     }
@@ -52,7 +54,7 @@ public class UserService {
         user.setPassword(dto.password());
 
         userRepository.save(user);
-        userHistoryService.update(user);
+        userHistoryService.log(user, UPDATE);
 
         return new ReadUserDto(user.getId(), user.getName(), user.getEmail());
     }
@@ -61,6 +63,6 @@ public class UserService {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ValidationException("User not found"));
 
-        userHistoryService.delete(user);
+        userHistoryService.log(user, DELETE);
     }
 }
