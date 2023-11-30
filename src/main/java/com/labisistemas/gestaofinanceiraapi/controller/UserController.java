@@ -7,10 +7,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -23,5 +20,11 @@ public class UserController {
     public ResponseEntity<ReadUserDto> create(@RequestBody @Valid CreateUserDto dto) {
         ReadUserDto user = userService.create(dto);
         return new ResponseEntity<>(user, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<ReadUserDto> update(@RequestBody @Valid CreateUserDto dto, @PathVariable Long id) {
+        ReadUserDto user = userService.update(dto, id);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 }
