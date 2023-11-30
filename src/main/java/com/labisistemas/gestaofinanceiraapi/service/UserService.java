@@ -14,6 +14,9 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private UserHistoryService userHistoryService;
+
     public ReadUserDto create(CreateUserDto dto) {
         userRepository.findByEmail(dto.email())
                 .ifPresent(user -> {
@@ -23,6 +26,7 @@ public class UserService {
         User user = new User(dto.name(), dto.email(), dto.password());
 
         userRepository.save(user);
+        userHistoryService.insert(user);
 
         return new ReadUserDto(user.getId(), user.getName(), user.getEmail());
     }
