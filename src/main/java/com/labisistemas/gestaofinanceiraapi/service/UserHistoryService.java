@@ -17,4 +17,9 @@ public class UserHistoryService {
         UserHistory userHistory = new UserHistory(user.getName(), user.getEmail(), user.getPassword(), ChangeType.INSERT, user);
         userHistoryRepository.save(userHistory);
     }
+
+    public void update(User user) {
+        UserHistory userHistory = new UserHistory(user.getName(), user.getEmail(), user.getPassword(), ChangeType.UPDATE, user);
+        userHistoryRepository.save(userHistory);
+    }
 }
