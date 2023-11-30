@@ -56,4 +56,11 @@ public class UserService {
 
         return new ReadUserDto(user.getId(), user.getName(), user.getEmail());
     }
+
+    public void delete(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new ValidationException("User not found"));
+
+        userHistoryService.delete(user);
+    }
 }
