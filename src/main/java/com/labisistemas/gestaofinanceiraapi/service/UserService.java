@@ -7,6 +7,8 @@ import com.labisistemas.gestaofinanceiraapi.model.User;
 import com.labisistemas.gestaofinanceiraapi.repository.UserRepository;
 import jakarta.validation.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import static com.labisistemas.gestaofinanceiraapi.enums.ChangeType.*;
@@ -32,6 +34,11 @@ public class UserService {
         userHistoryService.log(user, INSERT);
 
         return new ReadUserDto(user.getId(), user.getName(), user.getEmail());
+    }
+
+    public Page<ReadUserDto> findAll(String filter, Pageable pageable) {
+        Page<User> users = userRepository.findAll(filter, User.class, pageable);
+        return users.map(user -> new ReadUserDto(user.getId(), user.getName(), user.getEmail()));
     }
 
     public ReadUserDto update(UpdateUserDto dto, Long id) {
