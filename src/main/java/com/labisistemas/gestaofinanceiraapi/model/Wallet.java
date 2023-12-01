@@ -31,9 +31,6 @@ public class Wallet extends EntityId {
     @Column(name = "currency", nullable = false)
     private CurrencyType currency;
 
-    @Column(name = "created_at", nullable = false)
-    private Instant createdAt;
-
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
@@ -46,6 +43,5 @@ public class Wallet extends EntityId {
         this.description = description;
         this.balance = balance;
         this.currency = currency;
-        this.createdAt = Instant.now();
     }
 }
