@@ -38,6 +38,14 @@ public class Wallet extends EntityId {
     @OneToMany(mappedBy = "wallet", fetch = FetchType.LAZY)
     private List<WalletHistory> walletHistories;
 
+    public Wallet(String name, String description, Double balance, CurrencyType currency, User user) {
+        this.name = name;
+        this.description = description;
+        this.balance = balance;
+        this.currency = currency;
+        this.user = user;
+    }
+
     public Wallet(String name, String description, Double balance, CurrencyType currency) {
         this.name = name;
         this.description = description;

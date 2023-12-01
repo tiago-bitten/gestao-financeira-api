@@ -1,5 +1,8 @@
 package com.labisistemas.gestaofinanceiraapi.service;
 
+import com.labisistemas.gestaofinanceiraapi.dto.CreateWalletDto;
+import com.labisistemas.gestaofinanceiraapi.dto.ReadWalletDto;
+import com.labisistemas.gestaofinanceiraapi.model.User;
 import com.labisistemas.gestaofinanceiraapi.model.Wallet;
 import com.labisistemas.gestaofinanceiraapi.repository.WalletRepository;
 import jakarta.validation.ValidationException;
@@ -12,13 +15,18 @@ public class WalletService {
     @Autowired
     private WalletRepository walletRepository;
 
-    public ReadWalletDto create(CreateWalletDto dto) {
+    @Autowired
+    private UserService userService;
+
+    public ReadWalletDto create(CreateWalletDto dto, Long userId) {
         walletRepository.findByName(dto.name())
                 .ifPresent(wallet -> {
                     throw new ValidationException("Wallet already exists");
                 });
 
-        Wallet wallet = new Wallet(dto.name(), dto.description(), dto.balance(), dto.user());
+        User user = userService.findById(userId)
+                .orElseThrow(() -> new ValidationException("User not found"));
+        Wallet wallet = new Wallet(dto.name(), dto.description(), dto.balance(), dto.currency(), user);
 
         walletRepository.save(wallet);
 

@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.labisistemas.gestaofinanceiraapi.enums.ChangeType.*;
@@ -90,5 +91,9 @@ public class UserService {
                 .orElseThrow(() -> new ValidationException("User not found"));
 
         userHistoryService.log(user, DELETE);
+    }
+
+    public Optional<User> findById(Long id) {
+        return userRepository.findById(id);
     }
 }
