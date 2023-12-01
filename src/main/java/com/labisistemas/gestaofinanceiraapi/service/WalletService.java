@@ -1,6 +1,8 @@
 package com.labisistemas.gestaofinanceiraapi.service;
 
 import com.labisistemas.gestaofinanceiraapi.model.Wallet;
+import com.labisistemas.gestaofinanceiraapi.repository.WalletRepository;
+import jakarta.validation.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
