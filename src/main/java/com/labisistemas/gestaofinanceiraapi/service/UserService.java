@@ -4,12 +4,17 @@ import com.labisistemas.gestaofinanceiraapi.dto.CreateUserDto;
 import com.labisistemas.gestaofinanceiraapi.dto.ReadUserDto;
 import com.labisistemas.gestaofinanceiraapi.dto.UpdateUserDto;
 import com.labisistemas.gestaofinanceiraapi.model.User;
+import com.labisistemas.gestaofinanceiraapi.model.UserHistory;
 import com.labisistemas.gestaofinanceiraapi.repository.UserRepository;
 import jakarta.validation.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.labisistemas.gestaofinanceiraapi.enums.ChangeType.*;
 
@@ -38,8 +43,22 @@ public class UserService {
 
     public Page<ReadUserDto> findAll(String filter, Pageable pageable) {
         Page<User> users = userRepository.findAll(filter, User.class, pageable);
-        return users.map(user -> new ReadUserDto(user.getId(), user.getName(), user.getEmail()));
+
+        List<ReadUserDto> validUsers = users.getContent().stream()
+                .filter(user -> {
+                    List<UserHistory> userHistories = user.getUserHistories();
+                    if (!userHistories.isEmpty()) {
+                        UserHistory lastUserHistory = userHistories.get(userHistories.size() - 1);
+                        return lastUserHistory.getChangeType().equals(INSERT) || lastUserHistory.getChangeType().equals(UPDATE);
+                    }
+                    return false;
+                })
+                .map(user -> new ReadUserDto(user.getId(), user.getName(), user.getEmail()))
+                .collect(Collectors.toList());
+
+        return new PageImpl<>(validUsers, pageable, users.getTotalElements());
     }
+
 
     public ReadUserDto update(UpdateUserDto dto, Long id) {
         User user = userRepository.findById(id)
