@@ -93,6 +93,8 @@ public class UserService {
         userHistoryService.log(user, DELETE);
     }
 
+    public boolean isUserValid
+
     public Optional<User> findById(Long id) {
         return userRepository.findById(id);
     }
