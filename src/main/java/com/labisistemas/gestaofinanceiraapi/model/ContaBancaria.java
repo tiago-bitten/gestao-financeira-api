@@ -2,12 +2,9 @@ package com.labisistemas.gestaofinanceiraapi.model;
 
 import jakarta.persistence.*;
 
-import java.io.Serializable;
-import java.util.List;
-
 @Entity
-@Table(name = "carteiras")
-public class Carteira extends EntidadeBase implements Serializable {
+@Table(name = "contas_bancarias")
+public class ContaBancaria extends EntidadeBase {
 
     @Column(name = "nome")
     private String nome;
@@ -15,20 +12,22 @@ public class Carteira extends EntidadeBase implements Serializable {
     @Column(name = "saldo")
     private Double saldo;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
-    @OneToMany(mappedBy = "carteira", cascade = CascadeType.ALL)
-    private List<MetodoPagamento> metodosPagamento;
+    @ManyToOne
+    @JoinColumn(name = "carteira_id")
+    private Carteira carteira;
 
-    public Carteira() {
+    public ContaBancaria() {
     }
 
-    public Carteira(String nome, Double saldo, Usuario usuario) {
+    public ContaBancaria(String nome, Double saldo, Usuario usuario, Carteira carteira) {
         this.nome = nome;
         this.saldo = saldo;
         this.usuario = usuario;
+        this.carteira = carteira;
     }
 
     public String getNome() {
@@ -55,11 +54,11 @@ public class Carteira extends EntidadeBase implements Serializable {
         this.usuario = usuario;
     }
 
-    public List<MetodoPagamento> getMetodosPagamento() {
-        return metodosPagamento;
+    public Carteira getCarteira() {
+        return carteira;
     }
 
-    public void setMetodosPagamento(List<MetodoPagamento> metodosPagamento) {
-        this.metodosPagamento = metodosPagamento;
+    public void setCarteira(Carteira carteira) {
+        this.carteira = carteira;
     }
 }
