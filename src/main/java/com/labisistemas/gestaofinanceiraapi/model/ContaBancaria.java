@@ -2,6 +2,8 @@ package com.labisistemas.gestaofinanceiraapi.model;
 
 import jakarta.persistence.*;
 
+import java.util.Set;
+
 @Entity
 @Table(name = "contas_bancarias")
 public class ContaBancaria extends EntidadeBase {
@@ -16,18 +18,16 @@ public class ContaBancaria extends EntidadeBase {
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
-    @ManyToOne
-    @JoinColumn(name = "carteira_id")
-    private Carteira carteira;
+    @OneToMany(mappedBy = "contaBancaria", cascade = CascadeType.ALL)
+    private Set<Transacao> transacoes;
 
     public ContaBancaria() {
     }
 
-    public ContaBancaria(String nome, Double saldo, Usuario usuario, Carteira carteira) {
+    public ContaBancaria(String nome, Double saldo, Usuario usuario) {
         this.nome = nome;
         this.saldo = saldo;
         this.usuario = usuario;
-        this.carteira = carteira;
     }
 
     public String getNome() {
@@ -54,11 +54,11 @@ public class ContaBancaria extends EntidadeBase {
         this.usuario = usuario;
     }
 
-    public Carteira getCarteira() {
-        return carteira;
+    public Set<Transacao> getTransacoes() {
+        return transacoes;
     }
 
-    public void setCarteira(Carteira carteira) {
-        this.carteira = carteira;
+    public void setTransacoes(Set<Transacao> transacoes) {
+        this.transacoes = transacoes;
     }
 }
